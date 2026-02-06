@@ -46,30 +46,35 @@ export function CreatePostForm({ username }: ICreatePostFormProps) {
     },
   });
 
-  const handleSubmit = formCreatePost.handleSubmit(async (data) => {
-    try {
-      setIsLoading(true);
+  const handleSubmit = formCreatePost.handleSubmit(
+    async (data) => {
+      try {
+        setIsLoading(true);
 
-      const response = await fetch("/api/careers/create", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ ...data, username }),
-      });
+        const response = await fetch("/api/careers/create", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ ...data, username }),
+        });
 
-      if (!response.ok) {
-        throw new Error("Request failed");
+        if (!response.ok) {
+          throw new Error("Request failed");
+        }
+
+        toast.success("Post created");
+        router.refresh();
+      } catch {
+        toast.error("Failed to create post");
+      } finally {
+        setIsLoading(false);
       }
-
-      toast.success("Post created");
-      router.refresh();
-    } catch {
-      toast.error("Failed to create post");
-    } finally {
-      setIsLoading(false);
-    }
-  });
+    },
+    (erros) => {
+      toast.error(erros.title?.message || erros.content?.message);
+    },
+  );
 
   return (
     <Card className="w-full">

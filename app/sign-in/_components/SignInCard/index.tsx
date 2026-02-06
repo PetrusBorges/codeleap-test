@@ -16,8 +16,12 @@ import { useRouter } from "next/navigation";
 import { Controller, useForm } from "react-hook-form";
 import { signInSchema } from "./schema";
 import { toast } from "sonner";
+import { useState } from "react";
+import { Loader2 } from "lucide-react";
 
 export function SignInCard() {
+  const [isLoading, setIsLoading] = useState(false);
+
   const router = useRouter();
 
   const formSignIn = useForm({
@@ -29,8 +33,16 @@ export function SignInCard() {
 
   const handleSubmit = formSignIn.handleSubmit(
     async (data) => {
-      await loginAction(data.username);
-      router.push("/");
+      try {
+        setIsLoading(true);
+
+        await loginAction(data.username);
+        router.push("/");
+      } catch {
+        toast.error("Failed to login");
+      } finally {
+        setIsLoading(false);
+      }
     },
     (erros) => {
       toast.error(erros.username?.message);
@@ -72,8 +84,9 @@ export function SignInCard() {
           form="sign-in-form"
           type="submit"
           className="w-full cursor-pointer"
+          disabled={isLoading}
         >
-          Login
+          {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : "Login"}
         </Button>
       </CardFooter>
     </Card>

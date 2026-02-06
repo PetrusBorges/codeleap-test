@@ -49,30 +49,35 @@ export function PostCard({ post }: IPostCardProps) {
     },
   });
 
-  const handleSubmit = formEditPost.handleSubmit(async (data) => {
-    try {
-      setIsLoading(true);
+  const handleSubmit = formEditPost.handleSubmit(
+    async (data) => {
+      try {
+        setIsLoading(true);
 
-      const response = await fetch(`/api/careers/${post.id}/`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ ...data }),
-      });
+        const response = await fetch(`/api/careers/${post.id}/`, {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ ...data }),
+        });
 
-      if (!response.ok) {
-        throw new Error("Request failed");
+        if (!response.ok) {
+          throw new Error("Request failed");
+        }
+
+        toast.success("Post updated");
+        router.refresh();
+      } catch {
+        toast.error("Failed to update post");
+      } finally {
+        setIsLoading(false);
       }
-
-      toast.success("Post updated");
-      router.refresh();
-    } catch {
-      toast.error("Failed to update post");
-    } finally {
-      setIsLoading(false);
-    }
-  });
+    },
+    (erros) => {
+      toast.error(erros.title?.message || erros.content?.message);
+    },
+  );
 
   const handleDelete = async (id: number) => {
     try {
