@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const createPostSchema = z.object({
+export const editPostSchema = z.object({
   title: z.string().min(1, "Title is required"),
   content: z
     .string()
@@ -8,4 +8,4 @@ export const createPostSchema = z.object({
     .max(100, "Content must be less than 100 characters"),
 });
 
-export type CreatePostSchema = z.infer<typeof createPostSchema>;
+export type EditPostSchema = z.infer<typeof editPostSchema>;

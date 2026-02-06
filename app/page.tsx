@@ -1,7 +1,10 @@
 import { IPost } from "@/@types/post";
+import { CreatePostForm } from "@/components/layout/CreatePostForm";
 import { Header } from "@/components/layout/Header";
+import { ListPosts } from "@/components/layout/ListPosts";
 import { PostCard } from "@/components/layout/PostCard";
-import { PostList } from "@/components/layout/PostList";
+import { Input } from "@/components/ui/input";
+import { SearchIcon } from "lucide-react";
 import { cookies, headers } from "next/headers";
 
 async function getPostList() {
@@ -27,11 +30,9 @@ export default async function Home() {
       <Header username={username!} />
 
       <div className="max-w-[1200px] mx-auto py-4 space-y-4">
-        <PostCard username={username!} />
+        <CreatePostForm username={username!} />
 
-        {postsList.results.map((post: IPost) => (
-          <PostList key={post.id} post={post} />
-        ))}
+        <ListPosts postsList={postsList.results} />
       </div>
     </>
   );
