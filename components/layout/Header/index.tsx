@@ -20,6 +20,7 @@ export function Header({ username }: IHeaderProps) {
         <div className="flex items-center gap-2">
           <p className="text-white font-bold">Hello, {username} 😊</p>
           <Button
+            className="cursor-pointer"
             onClick={async () => {
               await logoutAction();
               router.push("/sign-in");
