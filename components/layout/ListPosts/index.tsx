@@ -28,35 +28,39 @@ export function ListPosts({ postsList }: IListPostsProps) {
 
   return (
     <>
-      <div className="flex items-center gap-2 border rounded-md p-2">
-        <Input
-          placeholder="Search for a post"
-          className="w-full border-none focus-visible:ring-0 focus-visible:ring-offset-0 shadow-none"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
+      {filteredPosts.length > 0 && (
+        <>
+          <div className="flex items-center gap-2 border rounded-md p-2">
+            <Input
+              placeholder="Search for a post"
+              className="w-full border-none focus-visible:ring-0 focus-visible:ring-offset-0 shadow-none"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
 
-        <SearchIcon className="w-4 h-4" />
+            <SearchIcon className="w-4 h-4" />
 
-        <Button
-          variant="outline"
-          size="icon"
-          className="cursor-pointer"
-          onClick={() =>
-            setSort((prevState) => (prevState === "asc" ? "desc" : "asc"))
-          }
-        >
-          {sort === "asc" ? (
-            <ArrowUpIcon className="w-4 h-4" />
-          ) : (
-            <ArrowDownIcon className="w-4 h-4" />
-          )}
-        </Button>
-      </div>
+            <Button
+              variant="outline"
+              size="icon"
+              className="cursor-pointer"
+              onClick={() =>
+                setSort((prevState) => (prevState === "asc" ? "desc" : "asc"))
+              }
+            >
+              {sort === "asc" ? (
+                <ArrowUpIcon className="w-4 h-4" />
+              ) : (
+                <ArrowDownIcon className="w-4 h-4" />
+              )}
+            </Button>
+          </div>
 
-      {filteredPosts.map((post: IPost) => (
-        <PostCard key={post.id} post={post} />
-      ))}
+          {filteredPosts.map((post: IPost) => (
+            <PostCard key={post.id} post={post} />
+          ))}
+        </>
+      )}
     </>
   );
 }
