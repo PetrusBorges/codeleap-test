@@ -1,10 +1,6 @@
-import { IPost } from "@/@types/post";
 import { CreatePostForm } from "@/components/layout/CreatePostForm";
 import { Header } from "@/components/layout/Header";
 import { ListPosts } from "@/components/layout/ListPosts";
-import { PostCard } from "@/components/layout/PostCard";
-import { Input } from "@/components/ui/input";
-import { SearchIcon } from "lucide-react";
 import { cookies, headers } from "next/headers";
 
 async function getPostList() {
